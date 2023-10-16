@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\BoardgameRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BoardgameRepository::class)]
@@ -46,6 +47,9 @@ class Boardgame
 
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: Reservations::class)]
     private Collection $reservations;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -210,6 +214,18 @@ class Boardgame
                 $reservation->setGame(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
