@@ -28,7 +28,9 @@
                 <td>{{ boardgame.nbrPlayers }}</td>
                 <td>{{ boardgame.ageMin }}</td>
                 <td>{{ boardgame.duration }}</td>
-                <td>{{ boardgame.img }}</td>
+                <td>
+                <img src="{{ asset('uploads/' ~ boardgame.img)}}">
+                </td>
                 <td>{{ boardgame.description }}</td>
                 <td>
                     <a href="{{ path('app_game_show', {'id': boardgame.id}) }}">show</a>

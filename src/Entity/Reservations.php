@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\ReservationsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ReservationsRepository::class)]
 class Reservations
 {
@@ -23,10 +23,12 @@ class Reservations
     private ?User $rental = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $start_rent = null;
-
+    #[Assert\GreaterThan('today UTC')]
+    protected \DateTimeInterface $start_rent;
+   
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $end_rent = null;
+    #[Assert\GreaterThan(propertyPath:'start_rent')]
+    protected \DateTimeInterface $end_rent;
 
     public function getId(): ?int
     {
