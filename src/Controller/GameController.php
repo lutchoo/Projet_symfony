@@ -10,6 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 #[Route('/game')]
 class GameController extends AbstractController
@@ -23,7 +27,7 @@ class GameController extends AbstractController
     }
 
     #[Route('/new', name: 'app_game_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $boardgame = new Boardgame();
         $form = $this->createForm(BoardgameType::class, $boardgame);
@@ -32,9 +36,29 @@ class GameController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $boardgame = $form->getData();
             $boardgame->setOwner($this->getUser());
-            $entityManager->persist($boardgame);
-            $entityManager->flush();
+            
 
+            $gamefile = $form->get("img")->getData();
+            if ($gamefile){
+
+                $originalFilname = pathinfo($gamefile->getClientOriginalName(),PATHINFO_FILENAME);
+                
+
+                $safeFilename = $slugger->slug($originalFilname);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$gamefile->guessExtension();
+                try {
+                    $gamefile->move(
+                        $this->getParameter('upload_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    
+                }
+                $boardgame->setImg($newFilename);
+                $entityManager->persist($boardgame);
+            $entityManager->flush();
+            }
+        
             return $this->redirectToRoute('app_game_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -43,7 +67,8 @@ class GameController extends AbstractController
             'form' => $form,
         ]);
     }
-
+    
+    
     #[Route('/{id}', name: 'app_game_show', methods: ['GET'])]
     public function show(Boardgame $boardgame): Response
     {
