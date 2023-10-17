@@ -80,4 +80,8 @@ class Reservations
 
         return $this;
     }
+
+    public function __toString() {
+        return $this->getRental(); // Utilisez une propriété pertinente de votre entité.
+    }
 }

@@ -56,7 +56,7 @@ class GameController extends AbstractController
                 }
                 $boardgame->setImg($newFilename);
                 $entityManager->persist($boardgame);
-            $entityManager->flush();
+                $entityManager->flush();
             }
         
             return $this->redirectToRoute('app_game_index', [], Response::HTTP_SEE_OTHER);
