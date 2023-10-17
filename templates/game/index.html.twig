@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boardgame index{% endblock %}
+
+{% block body %}
+    <h1>Boardgame index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Year_release</th>
+                <th>Nbr_players</th>
+                <th>Age_min</th>
+                <th>Duration</th>
+                <th>Img</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for boardgame in boardgames %}
+            <tr>
+                <td>{{ boardgame.id }}</td>
+                <td>{{ boardgame.name }}</td>
+                <td>{{ boardgame.yearRelease }}</td>
+                <td>{{ boardgame.nbrPlayers }}</td>
+                <td>{{ boardgame.ageMin }}</td>
+                <td>{{ boardgame.duration }}</td>
+                <td>{{ boardgame.img }}</td>
+                <td>{{ boardgame.description }}</td>
+                <td>
+                    <a href="{{ path('app_game_show', {'id': boardgame.id}) }}">show</a>
+                    <a href="{{ path('app_game_edit', {'id': boardgame.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_game_new') }}">Create new</a>
+{% endblock %}

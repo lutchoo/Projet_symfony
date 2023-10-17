@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Form;
-
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use App\Entity\Boardgame;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GameregisterType extends AbstractType
+class BoardgameType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -20,7 +20,6 @@ class GameregisterType extends AbstractType
             ->add('img')
             ->add('description')
             ->add('categorie')
-            ->add('owner')
         ;
     }
 

@@ -72,4 +72,7 @@ class Categories
 
         return $this;
     }
+    public function __toString() {
+        return $this->getName(); // Utilisez une propriété pertinente de votre entité.
+    }
 }

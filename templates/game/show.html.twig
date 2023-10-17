@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Boardgame{% endblock %}
+
+{% block body %}
+    <h1>Boardgame</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ boardgame.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ boardgame.name }}</td>
+            </tr>
+            <tr>
+                <th>Year_release</th>
+                <td>{{ boardgame.yearRelease }}</td>
+            </tr>
+            <tr>
+                <th>Nbr_players</th>
+                <td>{{ boardgame.nbrPlayers }}</td>
+            </tr>
+            <tr>
+                <th>Age_min</th>
+                <td>{{ boardgame.ageMin }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ boardgame.duration }}</td>
+            </tr>
+            <tr>
+                <th>Img</th>
+                <td>{{ boardgame.img }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ boardgame.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_game_index') }}">back to list</a>
+
+    <a href="{{ path('app_game_edit', {'id': boardgame.id}) }}">edit</a>
+
+    {{ include('game/_delete_form.html.twig') }}
+{% endblock %}
