@@ -23,7 +23,7 @@ class CategoriesController extends AbstractController
     }
 
     #[Route('/new', name: 'app_categories_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(CategoriesRepository $categoriesRepository ,Request  $request , EntityManagerInterface $entityManager): Response
     {
         $category = new Categories();
         $form = $this->createForm(CategoriesType::class, $category);
@@ -39,19 +39,24 @@ class CategoriesController extends AbstractController
         return $this->render('categories/new.html.twig', [
             'category' => $category,
             'form' => $form,
+            'categories' => $categoriesRepository->findAll(),
         ]);
     }
 
     #[Route('/{id}', name: 'app_categories_show', methods: ['GET'])]
-    public function show(Categories $category): Response
+    public function show(CategoriesRepository $categoriesRepository ,Categories $category): Response
     {
+        $games = $category->getBoardgames();
         return $this->render('categories/show.html.twig', [
             'category' => $category,
+            'categories' => $categoriesRepository->findAll(),
+            'games'=>$games
+            
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_categories_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Categories $category, EntityManagerInterface $entityManager): Response
+    public function edit(CategoriesRepository $categoriesRepository ,Request $request, Categories $category, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CategoriesType::class, $category);
         $form->handleRequest($request);
@@ -65,6 +70,7 @@ class CategoriesController extends AbstractController
         return $this->render('categories/edit.html.twig', [
             'category' => $category,
             'form' => $form,
+            'categories' => $categoriesRepository->findAll()
         ]);
     }
 

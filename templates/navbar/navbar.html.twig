@@ -27,9 +27,9 @@
             Categories
           </a>
           <ul class="dropdown-menu">
-          {% for element in categories %}
-            <li><a class="dropdown-item" href="#">{{element}}</a></li>
-          {% endfor %} 
+           {% for element in categories %}
+            <li><a class="dropdown-item" href="{{path('app_categories_show',{'id':element.id})}}">{{element.name}}</a></li>
+          {% endfor %}  
           </ul>
         </li>
       </ul>

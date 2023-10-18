@@ -70,15 +70,16 @@ class GameController extends AbstractController
     
     
     #[Route('/{id}', name: 'app_game_show', methods: ['GET'])]
-    public function show(Boardgame $boardgame): Response
+    public function show(CategoriesRepository $categorie ,Boardgame $boardgame): Response
     {
         return $this->render('game/show.html.twig', [
-            'boardgame' => $boardgame,
+         'boardgame' => $boardgame,
+         'categories' => $categorie->findAll(),
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_game_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Boardgame $boardgame, EntityManagerInterface $entityManager): Response
+    public function edit(CategoriesRepository $categorie ,Request $request, Boardgame $boardgame, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(BoardgameType::class, $boardgame);
         $form->handleRequest($request);
@@ -92,6 +93,7 @@ class GameController extends AbstractController
         return $this->render('game/edit.html.twig', [
             'boardgame' => $boardgame,
             'form' => $form,
+            'categories' => $categorie->findAll(),
         ]);
     }
 
