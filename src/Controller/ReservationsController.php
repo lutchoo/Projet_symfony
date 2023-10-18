@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CategoriesRepository;
 use App\Entity\Boardgame;
 use App\Entity\Reservations;
 use App\Form\ReservationsType;
@@ -17,10 +18,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ReservationsController extends AbstractController
 {
     #[Route('/', name: 'app_reservations_index', methods: ['GET'])]
-    public function index(ReservationsRepository $reservationsRepository): Response
+    public function index(CategoriesRepository $categories, ReservationsRepository $reservationsRepository): Response
     {
         return $this->render('reservations/index.html.twig', [
             'reservations' => $reservationsRepository->findAll(),
+            'categories' => $categories->findAll(),
         ]);
     }
 

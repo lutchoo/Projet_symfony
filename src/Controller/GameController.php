@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CategoriesRepository;
 use App\Entity\Boardgame;
 use App\Form\BoardgameType;
 use App\Repository\BoardgameRepository;
@@ -19,15 +20,16 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class GameController extends AbstractController
 {
     #[Route('/', name: 'app_game_index', methods: ['GET'])]
-    public function index(BoardgameRepository $boardgameRepository): Response
+    public function index(CategoriesRepository $categorie, BoardgameRepository $boardgameRepository): Response
     {
         return $this->render('game/index.html.twig', [
             'boardgames' => $boardgameRepository->findAll(),
+            'categories' => $categorie->findAll(),
         ]);
     }
 
     #[Route('/new', name: 'app_game_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function new(CategoriesRepository $categorie, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $boardgame = new Boardgame();
         $form = $this->createForm(BoardgameType::class, $boardgame);
@@ -36,16 +38,13 @@ class GameController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $boardgame = $form->getData();
             $boardgame->setOwner($this->getUser());
-            
-
             $gamefile = $form->get("img")->getData();
             if ($gamefile){
 
                 $originalFilname = pathinfo($gamefile->getClientOriginalName(),PATHINFO_FILENAME);
-                
-
                 $safeFilename = $slugger->slug($originalFilname);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$gamefile->guessExtension();
+
                 try {
                     $gamefile->move(
                         $this->getParameter('upload_directory'),
@@ -65,6 +64,7 @@ class GameController extends AbstractController
         return $this->render('game/new.html.twig', [
             'boardgame' => $boardgame,
             'form' => $form,
+            'categories' => $categorie->findAll(),
         ]);
     }
     
