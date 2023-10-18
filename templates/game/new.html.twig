@@ -4,9 +4,7 @@
 
 {% block body %}
     <h1>Create new Boardgame</h1>
-{% for element in reservation %}
-    {{element}}
-{% endfor %}
+
     {{ include('game/_form.html.twig') }}
 
     <a href="{{ path('app_game_index') }}">back to list</a>

@@ -37,9 +37,8 @@ class ReservationsController extends AbstractController
         $reservation = new Reservations();
         $form = $this->createForm(ReservationsType::class, $reservation);
         $form->handleRequest($request);
-        // $exist_start_rent = $entityManager->getRepository(Reservation::class)->getStartRent();
-        //dump($exist_start_rent);
         if ($form->isSubmitted() && $form->isValid()) {
+            
             if ( $reservation->getStartRent() > $exist_end_rent || $reservation->getEndRent() < $exist_start_rent ) {
 
             $reservation = $form->getData();
@@ -49,7 +48,7 @@ class ReservationsController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('app_reservations_index', [], Response::HTTP_SEE_OTHER);
-        }
+            }
         }
 
 
