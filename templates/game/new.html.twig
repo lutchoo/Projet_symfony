@@ -3,9 +3,11 @@
 {% block title %}New Boardgame{% endblock %}
 
 {% block body %}
+<section class="container">
     <h1>Create new Boardgame</h1>
 
     {{ include('game/_form.html.twig') }}
 
-    <a href="{{ path('app_game_index') }}">back to list</a>
+    <a class="m-5 btn btn-warning" href="{{ path('app_game_index') }}">Retour à la liste</a>
+</section>
 {% endblock %}

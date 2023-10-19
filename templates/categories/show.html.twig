@@ -3,23 +3,28 @@
 {% block title %}Categories{% endblock %}
 
 {% block body %}
-    <h1>Categories</h1>
+    <section class='container text-center'>
+        <h1>Categories</h1>
+        <section class="row">
 {% for element in games %}
-    <div class="card" style="width: 18rem;">
-        <img  src="{{asset('uploads/'~ element.img)}}" class="card-img-top" alt="image du jeux">
-            <div class="card-body">
-                <h5 class="card-title">{{element.name}}</h5>
-                <p class="card-text">Sortie en : {{element.yearRelease}}</p>
-                <p class="card-text">Nombre de joueurs max : {{element.nbrPlayers}}</p>
-                <p class="card-text">Age conseillé : {{element.ageMin}}</p>
-                <p class="card-text">Duree d'une partie : {{element.duration}}</p>
-                <p class="card-text"> Description : {{element.description}}</p>
-            </div>
-    </div>   
+            <div class="cardindex card col m-5 shadow p-0 rounded" style="width: 18rem;">
+                <img  src="{{asset('uploads/'~ element.img)}}" class="card-img-top" alt="image du jeux">
+                    <div class="card-body">
+                        <h5 class="card-title">{{element.name}}</h5>
+                        <p class="card-text">Sortie en : {{element.yearRelease}}</p>
+                        <p class="card-text">Nombre de joueurs max : {{element.nbrPlayers}}</p>
+                        <p class="card-text">Age conseillé : {{element.ageMin}}</p>
+                        <p class="card-text">Duree d'une partie : {{element.duration}}</p>
+                        <p class="card-text"> Description : {{element.description}}</p>
+                        <a class="btn btn-warning" href="{{ path('app_game_show', {'id': element.id}) }}">Voir plus</a>
+                    </div>
+            </div>  
+         
 {% endfor %}
+</section>
 
 
-    <a href="{{ path('app_game_index') }}">back to list</a>
+    <a class="btn btn-warning" href="{{ path('app_game_index') }}">Retour à la liste des jeux</a>
 
 
 

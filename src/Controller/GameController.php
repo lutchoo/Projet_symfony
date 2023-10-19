@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\CategoriesRepository;
 use App\Entity\Boardgame;
 use App\Form\BoardgameType;
@@ -110,4 +111,15 @@ class GameController extends AbstractController
 
         return $this->redirectToRoute('app_game_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    // #[Route('/owner/{id}', name: 'app_owner_boardgames', methods: ['POST'])]
+    // public function getBoardgamesByOwner(User $user) :Response
+    // {
+    //     $boardgames = $user->getBoardgames();
+    //     return $this->redirectToRoute('app_owner_boardgames',[
+    //         'boardgames'=>$boardgames
+    //     ]);
+    // }
+
+
 }

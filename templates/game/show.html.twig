@@ -15,14 +15,14 @@
                 <p class="card-text">Duree d'une partie : {{boardgame.duration}} heure</p>
                 <p class="card-text"> Description : {{boardgame.description}}</p>
                 <p class="card-text"> Categories : {{category.name}}</p>
-                <p class="card-text"> Proprio : {{boardgame.owner}}</p>
-                
+                <p class="card-text"> Proprio : {{boardgame.owner}}</p> 
             </div>
     </div> 
-    </section>
-    <a href="{{ path('app_game_index') }}">back to list</a>
-    <a href="{{ path('app_reservations_new', {'id': boardgame.id}) }}">Reservation</a>
-    <a href="{{ path('app_game_edit', {'id': boardgame.id}) }}">edit</a>
-
+   <div class="m-5"> 
+    <a class="m-5 btn btn-warning" href="{{ path('app_game_index') }}">Retour à la liste des jeux</a>
+    <a class="m-5 btn btn-warning" href="{{ path('app_reservations_new', {'id': boardgame.id}) }}">Reservation</a>
+    <a class="m-5 btn btn-warning" href="{{ path('app_game_edit', {'id': boardgame.id}) }}">Modifier</a>
+    </div>
+</section>
     {{ include('game/_delete_form.html.twig') }}
 {% endblock %}

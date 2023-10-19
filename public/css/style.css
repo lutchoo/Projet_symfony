@@ -1,0 +1,15 @@
+.cardindex:hover{
+    transform:scale(1.1);
+    transition:0.5s;
+}
+.cardindex{
+    transition:0.5s;
+}
+.btn{
+
+    transition:0.5s;
+}
+.btn:hover{
+    transform:scale(1.1);
+    transition:0.5s;
+}
