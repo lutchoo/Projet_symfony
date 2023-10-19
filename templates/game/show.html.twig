@@ -18,6 +18,15 @@
                 <p class="card-text"> Proprio : {{boardgame.owner}}</p> 
             </div>
     </div> 
+    <div class="cardindex card col m-5 shadow p-0 rounded" style="width: 18rem;">    
+                {% for comments in comment %}
+            
+                {% endfor %}
+                {{dump(boardgame)}}
+    </div>     
+    <div class="cardindex card col m-5 shadow p-0 rounded" style="width: 18rem;"> 
+                 {{form(form)}}
+    </div>  
    <div class="m-5"> 
     <a class="m-5 btn btn-warning" href="{{ path('app_game_index') }}">Retour à la liste des jeux</a>
     {% if app.user %}

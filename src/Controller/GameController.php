@@ -6,8 +6,9 @@ namespace App\Controller;
 use App\Repository\CategoriesRepository;
 use App\Entity\Boardgame;
 use App\Form\BoardgameType;
+use App\Form\CommentsType;
 use App\Repository\BoardgameRepository;
-
+use App\Repository\CommentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use App\Entity\Comments;
+use Doctrine\ORM\EntityManager;
 
+use function Symfony\Component\Clock\now;
 
 #[Route('/game')]
 class GameController extends AbstractController
@@ -71,15 +75,28 @@ class GameController extends AbstractController
     }
     
     
-    #[Route('/{id}', name: 'app_game_show', methods: ['GET'])]
-    public function show(CategoriesRepository $categorie ,Boardgame $boardgame): Response
+    #[Route('/{id}', name: 'app_game_show', methods: ['POST','GET'])]
+    public function show(CategoriesRepository $categorie ,Boardgame $boardgame, Request $request, EntityManagerInterface $manager,$id): Response
     {
-
+        $comment = new Comments;
+        $form = $this->createForm(CommentsType::class, $comment);
+        $form->handleRequest($request);
         $category = $boardgame->getCategorie();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment= $form->getData();
+            $comment->setWriter($this->getUser());
+            $comment ->setGame($boardgame);
+            $comment ->setDate(now());
+            $manager ->persist($comment);
+            $manager->flush();
+            return $this->redirectToRoute('app_game_show', ["id"=>$id], Response::HTTP_SEE_OTHER);
+        }  
         return $this->render('game/show.html.twig', [
          'boardgame' => $boardgame,
          'categories' => $categorie->findAll(),
          'category' => $category,
+         'comment' => $comment,
+         'form'=>$form,
         ]);
     }
 
