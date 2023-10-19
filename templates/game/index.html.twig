@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <h5 class="text-uppercase card-title">{{ boardgame.name }}</h5>
                     <p class="card-text">{{ boardgame.description }}</p>
-                    <a href="{{ path('app_game_show', {'id': boardgame.id}) }}">show</a>
+                    <a class="btn btn-warning" href="{{ path('app_game_show', {'id': boardgame.id}) }}">Voir plus</a>
                     {#<a href="{{ path('app_game_edit', {'id': boardgame.id}) }}">edit</a>#}
                 </div>
             </div>

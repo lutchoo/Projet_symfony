@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OwnerController!{% endblock %}
+
+{% block body %}
+    <section class='container text-center'>
+    
+        {% if boardgames is not empty %}
+        
+            <h1>Boardgame index</h1>
+            <section class="row">
+                {% for boardgame in boardgames %}
+                <div class="cardindex card col m-5 shadow p-0 rounded" style="width: 18rem;">
+                    <img src="{{ asset('uploads/' ~ boardgame.img)}}" class="card-img-top" alt="image du jeux">
+                    <div class="card-body">
+                        <h5 class="text-uppercase card-title">{{ boardgame.name }}</h5>
+                        <p class="card-text">{{ boardgame.description }}</p>
+                        <a class="btn btn-warning" href="{{ path('app_owner_show', {'id': boardgame.id}) }}">Voir plus</a>
+                        {#<a href="{{ path('app_game_edit', {'id': boardgame.id}) }}">edit</a>#}
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+        {% else %}
+            <p>Vous n'avez posté aucun jeu</p>
+        {% endif %}
+    </section>
+{% endblock %}
