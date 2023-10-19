@@ -72,9 +72,12 @@ class GameController extends AbstractController
     #[Route('/{id}', name: 'app_game_show', methods: ['GET'])]
     public function show(CategoriesRepository $categorie ,Boardgame $boardgame): Response
     {
+
+        $category = $boardgame->getCategorie();
         return $this->render('game/show.html.twig', [
          'boardgame' => $boardgame,
          'categories' => $categorie->findAll(),
+         'category' => $category,
         ]);
     }
 

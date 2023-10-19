@@ -26,8 +26,8 @@ class ReservationsController extends AbstractController
         ]);
     }
 
-    #[Route('/new/{id}', name: 'app_reservations_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, $id): Response
+    #[Route('^/profile/new/{id}', name: 'app_reservations_new', methods: ['GET', 'POST'])]
+    public function new(CategoriesRepository $categories, Request $request, EntityManagerInterface $entityManager, $id): Response
     {
         
         $game = $entityManager->getRepository(Boardgame::class)->find($id);
@@ -40,9 +40,8 @@ class ReservationsController extends AbstractController
         $form = $this->createForm(ReservationsType::class, $reservation);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            
+           if($reservation_exist){ 
             if ( $reservation->getStartRent() > $exist_end_rent || $reservation->getEndRent() < $exist_start_rent ) {
-
             $reservation = $form->getData();
             $reservation->setRental($this->getUser());
             $reservation->setGame($game);
@@ -51,12 +50,22 @@ class ReservationsController extends AbstractController
 
             return $this->redirectToRoute('app_reservations_index', [], Response::HTTP_SEE_OTHER);
             }
+        }else{
+            $reservation = $form->getData();
+            $reservation->setRental($this->getUser());
+            $reservation->setGame($game);
+            $entityManager->persist($reservation);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_reservations_index', [], Response::HTTP_SEE_OTHER);
+        
         }
-
+        }
+    
 
         return $this->render('reservations/new.html.twig', [
             'form' => $form,
-            'reservation' => $reservation_exist
+            'reservation' => $reservation_exist,
+            'categories' => $categories->findAll(),
         ]);
     }
 

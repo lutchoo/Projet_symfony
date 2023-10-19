@@ -41,6 +41,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'rental', targetEntity: Reservations::class)]
     private Collection $reservations;
 
+    #[ORM\Column(length: 50)]
+    private ?string $pseudo = null;
+
     public function __construct()
     {
         $this->boardgames = new ArrayCollection();
@@ -204,6 +207,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $reservation->setRental(null);
             }
         }
+
+        return $this;
+    }
+    public function __toString()
+    {
+      return $this->pseudo;  
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): static
+    {
+        $this->pseudo = $pseudo;
 
         return $this;
     }

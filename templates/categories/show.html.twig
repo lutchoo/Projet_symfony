@@ -5,18 +5,21 @@
 {% block body %}
     <h1>Categories</h1>
 {% for element in games %}
-    {{element.name}}
-    {{element.yearRelease}}
-    {{element.nbrPlayers}}
-    {{element.ageMin}}
-    {{element.duration}}
-    <img style= "width:200px"src="{{asset('uploads/'~ element.img)}}"> 
-    {{element.description}}
-    
+    <div class="card" style="width: 18rem;">
+        <img  src="{{asset('uploads/'~ element.img)}}" class="card-img-top" alt="image du jeux">
+            <div class="card-body">
+                <h5 class="card-title">{{element.name}}</h5>
+                <p class="card-text">Sortie en : {{element.yearRelease}}</p>
+                <p class="card-text">Nombre de joueurs max : {{element.nbrPlayers}}</p>
+                <p class="card-text">Age conseillé : {{element.ageMin}}</p>
+                <p class="card-text">Duree d'une partie : {{element.duration}}</p>
+                <p class="card-text"> Description : {{element.description}}</p>
+            </div>
+    </div>   
 {% endfor %}
 
 
-    <a href="{{ path('app_categories_index') }}">back to list</a>
+    <a href="{{ path('app_game_index') }}">back to list</a>
 
 
 
