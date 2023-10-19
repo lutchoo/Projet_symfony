@@ -3,13 +3,11 @@
 {% block title %}New Reservations{% endblock %}
 
 {% block body %}
-    <h1>Create new Reservations</h1>
-{% if reservation  %}
-    {% for element in reservation %}
-        {{element.startRent|date("m/d/Y")}}
-    {% endfor %}
-{% endif %}
+<section class="container">
+    <h1 class='text-center'>Create new Reservations</h1>
+
     {{ include('reservations/_form.html.twig') }}
 
-    <a href="{{ path('app_reservations_index') }}">back to list</a>
+    <a class="m-5 btn btn-warning" href="{{ path('app_reservations_index') }}">back to list</a>
+</section>
 {% endblock %}

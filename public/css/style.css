@@ -1,5 +1,7 @@
 body{
     background-image: url('../images/fond_ecran_boardgame.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .cardindex:hover{
     transform:scale(1.1);
@@ -15,4 +17,32 @@ body{
 .btn:hover{
     transform:scale(1.1);
     transition:0.5s;
+}
+h1{
+    color: gold;
+}
+label{
+    color: gold;
+    font-size: 1em;
+    font-weight: 800;
+    margin-left: 5px;
+}
+legend{
+    color: gold;
+    font-size: 1em;
+    font-weight: 800;
+    margin-left: 5px;
+}
+form{
+    background-color:rgba(000,000,000,0.8);
+    border-radius: 5px;
+}
+span{
+    color: black;
+    font-weight: 900;
+}
+.pAccueil{
+    color: gold;
+    font-weight: 500;
+    font-size: 1.5em;
 }

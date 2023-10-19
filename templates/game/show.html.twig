@@ -3,19 +3,20 @@
 {% block title %}Boardgame{% endblock %}
 
 {% block body %}
-    <h1>Boardgame</h1>
-    <section class="container" >
+    
+    <section class="container text-center" >
+    <h1 >Boardgame</h1>
     <div class="card">
         <img  src="{{asset('uploads/'~ boardgame.img)}}" class="card-img-top" alt="image du jeux">
             <div class="card-body">
                 <h5 class="card-title text-center text-uppercase">{{boardgame.name}}</h5>
-                <p class="card-text">Sortie en : {{boardgame.yearRelease}}</p>
-                <p class="card-text">Nombre de joueurs max : {{boardgame.nbrPlayers}}</p>
-                <p class="card-text">Age conseillé : {{boardgame.ageMin}} ans</p>
-                <p class="card-text">Duree d'une partie : {{boardgame.duration}} heure</p>
-                <p class="card-text"> Description : {{boardgame.description}}</p>
-                <p class="card-text"> Categories : {{category.name}}</p>
-                <p class="card-text"> Proprio : {{boardgame.owner}}</p> 
+                <p class="card-text"><span>Sortie en :</span> {{boardgame.yearRelease}}</p>
+                <p class="card-text"><span>Nombre de joueurs max :</span> {{boardgame.nbrPlayers}}</p>
+                <p class="card-text"><span>Age conseillé : </span>{{boardgame.ageMin}} ans</p>
+                <p class="card-text"><span>Duree d'une partie :</span> {{boardgame.duration}} heure</p>
+                <p class="card-text"><span> Description :</span> {{boardgame.description}}</p>
+                <p class="card-text"> <span>Categories :</span> {{category.name}}</p>
+                <p class="card-text"><span> Proprio : </span>{{boardgame.owner}}</p> 
             </div>
     </div> 
       
@@ -24,7 +25,7 @@
                 {% endfor %}
          
     <div class="cardindex card col m-5 shadow p-0 rounded" style="width: 18rem;"> 
-                 {{form(form)}}
+        {{form(form)}}
     </div>  
    <div class="m-5"> 
     <a class="m-5 btn btn-warning" href="{{ path('app_game_index') }}">Retour à la liste des jeux</a>

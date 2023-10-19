@@ -26,7 +26,7 @@ class ReservationsController extends AbstractController
         ]);
     }
 
-    #[Route('^/profile/new/{id}', name: 'app_reservations_new', methods: ['GET', 'POST'])]
+    #[Route('new/{id}', name: 'app_reservations_new', methods: ['GET', 'POST'])]
     public function new(CategoriesRepository $categories, Request $request, EntityManagerInterface $entityManager, $id): Response
     {
         
@@ -40,7 +40,7 @@ class ReservationsController extends AbstractController
         $form = $this->createForm(ReservationsType::class, $reservation);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-           if($reservation_exist){ 
+           if(!empty($reservation_exist)){ 
             if ( $reservation->getStartRent() > $exist_end_rent || $reservation->getEndRent() < $exist_start_rent ) {
             $reservation = $form->getData();
             $reservation->setRental($this->getUser());

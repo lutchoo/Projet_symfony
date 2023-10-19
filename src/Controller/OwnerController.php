@@ -32,7 +32,7 @@ class OwnerController extends AbstractController
     public function show(CategoriesRepository $categorie , Boardgame $boardgame, $id ):Response
     {
         $category = $boardgame->getCategorie(); 
-        return $this->render('game/show.html.twig', [
+        return $this->render('owner/show.html.twig', [
          'boardgame' => $boardgame,
          'categories' => $categorie->findAll(),
          'category' => $category,

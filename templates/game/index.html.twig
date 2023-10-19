@@ -7,7 +7,7 @@
         <h1>Boardgame index</h1>
         <section class="row">
             {% for boardgame in boardgames %}
-            <div class="cardindex card col m-5 shadow p-0 rounded" style="width: 18rem;">
+            <div class="cardindex card col-4 m-5 shadow p-0 rounded" style="width: 18rem;">
                 <img src="{{ asset('uploads/' ~ boardgame.img)}}" class="card-img-top" alt="image du jeux">
                 <div class="card-body">
                     <h5 class="text-uppercase card-title">{{ boardgame.name }}</h5>
