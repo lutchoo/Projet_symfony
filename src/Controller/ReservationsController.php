@@ -37,39 +37,36 @@ class ReservationsController extends AbstractController
         $reservation = new Reservations();
         $form = $this->createForm(ReservationsType::class, $reservation);
         $form->handleRequest($request);
-        $test = true;
+        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $reservation = $form->getData();
-            if(count($reservation_exist)>0){ 
-                
-                foreach($reservation_exist as $element){
-                    $exist_start_rent = $element->getStartRent();
-                    $exist_end_rent = $element->getEndRent();
-                    if ($reservation->getStartRent() > $exist_end_rent){
-
-                        if($reservation->getEndRent() > $exist_start_rent){                      
-                            $test = false;                        
-
-                            if ($test == false){
-                                $reservation->setRental($this->getUser());
-                                $reservation->setGame($game);
-                                $entityManager->persist($reservation);
-                                $entityManager->flush();
-                                return $this->redirectToRoute('app_reservations_index', [], Response::HTTP_SEE_OTHER);
-                            }
-                        }                           
-                    }
+            $isOverlap = false; // Variable pour indiquer s'il y a chevauchement
+        
+            // Vérifie le chevauchement avec les réservations existantes
+            foreach ($reservation_exist as $element) {
+                $existStartRent = $element->getStartRent();
+                $existEndRent = $element->getEndRent();
+        
+                if ($reservation->getEndRent() > $existStartRent && $reservation->getStartRent() < $existEndRent) {
+                    // Il y a chevauchement
+                    $isOverlap = true;
+                    break; // Pas besoin de vérifier d'autres réservations
                 }
-            }else{
-                $reservation = $form->getData();
+            }
+        
+            if (!$isOverlap) {
+                // Aucun chevauchement, vous pouvez enregistrer la nouvelle réservation
                 $reservation->setRental($this->getUser());
                 $reservation->setGame($game);
                 $entityManager->persist($reservation);
                 $entityManager->flush();
                 return $this->redirectToRoute('app_reservations_index', [], Response::HTTP_SEE_OTHER);
-            
+            } else {
+                
             }
         }
+        
     
 
         return $this->render('reservations/new.html.twig', [
