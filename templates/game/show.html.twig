@@ -5,33 +5,43 @@
 {% block body %}
     
     <section class="container text-center" >
-    <h1 >Boardgame</h1>
-    <div class="card">
-        <img  src="{{asset('uploads/'~ boardgame.img)}}" class="card-img-top" alt="image du jeux">
-            <div class="card-body">
-                <h5 class="card-title text-center text-uppercase">{{boardgame.name}}</h5>
-                <p class="card-text"><span>Sortie en :</span> {{boardgame.yearRelease}}</p>
-                <p class="card-text"><span>Nombre de joueurs max :</span> {{boardgame.nbrPlayers}}</p>
-                <p class="card-text"><span>Age conseillé : </span>{{boardgame.ageMin}} ans</p>
-                <p class="card-text"><span>Duree d'une partie :</span> {{boardgame.duration}} heure</p>
-                <p class="card-text"><span> Description :</span> {{boardgame.description}}</p>
-                <p class="card-text"> <span>Categories :</span> {{category.name}}</p>
-                <p class="card-text"><span> Proprio : </span>{{boardgame.owner}}</p> 
+        <h1 >Boardgame</h1>
+        <div class="card">
+            <img  src="{{asset('uploads/'~ boardgame.img)}}" class="card-img-top" alt="image du jeux">
+                <div class="card-body">
+                    <h5 class="card-title text-center text-uppercase">{{boardgame.name}}</h5>
+                    <p class="card-text"><span>Sortie en :</span> {{boardgame.yearRelease}}</p>
+                    <p class="card-text"><span>Nombre de joueurs max :</span> {{boardgame.nbrPlayers}}</p>
+                    <p class="card-text"><span>Age conseillé : </span>{{boardgame.ageMin}} ans</p>
+                    <p class="card-text"><span>Duree d'une partie :</span> {{boardgame.duration}} heure</p>
+                    <p class="card-text"><span> Description :</span> {{boardgame.description}}</p>
+                    <p class="card-text"> <span>Categories :</span> {{category.name}}</p>
+                    <p class="card-text"><span> Proprio : </span>{{boardgame.owner}}</p> 
+                </div>
+        </div> 
+        
+        {% for comment in boardgame.comments %}
+            <div class="comments row  rounded mt-3" >
+                <div class="col-3">
+                    <p>De {{comment.writer}}</p>
+                    <p>le:{{comment.date|date("Y-m-d")}} </p>
+                </div>
+                <div  class="col-9">
+                    <p> {{comment.comment}} </p>
+                </div>
             </div>
-    </div> 
-     
-                {% for comment in boardgame.comments %}
-                    <div class="card col m-5 shadow p-0 rounded" style="width: 18rem;">   {{comment.comment}}</div>
-                {% endfor %}
-         
-    <div class="card col m-5 shadow p-0 rounded" style="width: 18rem;"> 
-        {{form(form)}}
-    </div>  
-   <div class="m-5"> 
-    <a class="m-5 btn btn-warning" href="{{ path('app_game_index') }}">Retour à la liste des jeux</a>
-    {% if app.user %}
-    <a class="m-5 btn btn-warning" href="{{ path('app_reservations_new', {'id': boardgame.id}) }}">Reservation</a>
-    {% endif %}
-        </div>
-</section>
+        {% endfor %}
+        {% if app.user %}    
+            <div class=" mt-3"> 
+            <h5 style="color:gold; font-weight:bold;background-color:rgba(000,000,000,0.8);">Ajouter un commentaire</h5>
+                {{form(form)}}
+            </div>  
+            <div class="m-5"> 
+                <a class="m-5 btn btn-warning" href="{{ path('app_game_index') }}">Retour à la liste des jeux</a>
+                {% if app.user %}
+                    <a class="m-5 btn btn-warning" href="{{ path('app_reservations_new', {'id': boardgame.id}) }}">Reservation</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </section>
 {% endblock %}

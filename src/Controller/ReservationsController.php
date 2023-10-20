@@ -37,31 +37,38 @@ class ReservationsController extends AbstractController
         $reservation = new Reservations();
         $form = $this->createForm(ReservationsType::class, $reservation);
         $form->handleRequest($request);
+        $test = true;
         if ($form->isSubmitted() && $form->isValid()) {
-           if(count($reservation_exist)>0){ 
-            foreach($reservation_exist as $element){
-                $exist_start_rent = $element->getStartRent();
-                $exist_end_rent = $element->getEndRent();
-        
-            if ( $reservation->getStartRent() > $exist_end_rent && $reservation->getEndRent() < $exist_start_rent ) {
             $reservation = $form->getData();
-            $reservation->setRental($this->getUser());
-            $reservation->setGame($game);
-            $entityManager->persist($reservation);
-            $entityManager->flush();
+            if(count($reservation_exist)>0){ 
+                
+                foreach($reservation_exist as $element){
+                    $exist_start_rent = $element->getStartRent();
+                    $exist_end_rent = $element->getEndRent();
+                    if ($reservation->getStartRent() > $exist_end_rent){
 
-            return $this->redirectToRoute('app_reservations_index', [], Response::HTTP_SEE_OTHER);
+                        if($reservation->getEndRent() > $exist_start_rent){                      
+                            $test = false;                        
+
+                            if ($test == false){
+                                $reservation->setRental($this->getUser());
+                                $reservation->setGame($game);
+                                $entityManager->persist($reservation);
+                                $entityManager->flush();
+                                return $this->redirectToRoute('app_reservations_index', [], Response::HTTP_SEE_OTHER);
+                            }
+                        }                           
+                    }
+                }
+            }else{
+                $reservation = $form->getData();
+                $reservation->setRental($this->getUser());
+                $reservation->setGame($game);
+                $entityManager->persist($reservation);
+                $entityManager->flush();
+                return $this->redirectToRoute('app_reservations_index', [], Response::HTTP_SEE_OTHER);
+            
             }
-        }
-        }else{
-            $reservation = $form->getData();
-            $reservation->setRental($this->getUser());
-            $reservation->setGame($game);
-            $entityManager->persist($reservation);
-            $entityManager->flush();
-            return $this->redirectToRoute('app_reservations_index', [], Response::HTTP_SEE_OTHER);
-        
-        }
         }
     
 
