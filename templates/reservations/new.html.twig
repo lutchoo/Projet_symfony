@@ -8,6 +8,20 @@
 
     {{ include('reservations/_form.html.twig') }}
 
+     {% for reservation in boardgame.reservations %}
+     
+    {% if reservation.endRent < date ("today") %}
+
+       <div class="card col m-5 shadow p-0 rounded" style="width: 18rem;">   
+       
+       <p> ce jeu est déja réservé du  : {{reservation.startRent|date("Y-m-d")}}, jusqu'au {{reservation.endRent|date("Y-m-d")}}
+       
+       </div>
+    {% endif %}
+
+        {% endfor %}
+
+
     <a class="m-5 btn btn-warning" href="{{ path('app_reservations_index') }}">back to list</a>
 </section>
 {% endblock %}
